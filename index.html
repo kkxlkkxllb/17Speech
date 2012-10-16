@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Hello World</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/custom.css">
+</head>
+<body>
+
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+        <a class="brand">TTS</a>
+        <div class="nav-collapse collapse">
+          <ul class="nav">
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="container">
+    <form class="form-inline">
+      <input type="text" id="inpSpeakMe" class="input-xlarge" placeholder="Say something..." value="The rain in Spain, stays mainly in the plain.">
+      <button disabled type="button" id="btnSpeak" class="btn">Speak</button>
+    </form>
+
+    <p id="wordList" class="muted">
+    </p>
+
+</div>
+
+
+
+  <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.js"></script>
+  <script type="text/javascript" src="js/app.js"></script>
+</body>
+</html>
