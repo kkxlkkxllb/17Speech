@@ -14,7 +14,7 @@ $(document).ready(function(){
 		chrome.tts.speak(
 			toSay,
 			{
-				// rate: 0.8,
+				rate: 0.1,
 				// requiredEventTypes: ["word"],
 				onEvent: function(event) {
 					console.log('Event ' + event.type + ' at position ' + event.charIndex);
