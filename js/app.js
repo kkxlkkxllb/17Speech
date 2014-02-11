@@ -1,33 +1,56 @@
 var speakInput;
 var wordList;
+var voiceSel;
 
 $(document).ready(function(){
 	speakInput = $("#inpSpeakMe");
 	wordList = $("#wordList");
+	voiceSel = $("#voiceSel");
+	rateInput = $("#rate");
+	chrome.tts.getVoices(
+		function(voices) {
+			var voiceHtml = "";
+			for (var i = 0; i < voices.length; i++) {
+				voiceHtml += "<option value='" + voices[i].voiceName + "'>" + voices[i].voiceName + "</option>";
+			}
+			$("#voiceSel").html(voiceHtml);
+		});
+	$("#rate").change(function(){
+		var rate = $(this).val();
+		$(this).prev().text("rate: " + rate);
+	}).trigger("change");
 	$("#btnSpeak").click(function(){
 		var toSay = speakInput.val();
-		var words = toSay.split(" ");
+		var voiceN = voiceSel.val();
+		var rateV = parseFloat(rateInput.val());
+		var words = toSay.split("");
 		var html = $.map(words,function(w){
 			return("<span>" + w + "</span>");
-		}).join(" ");
+		}).join("");
 		wordList.html(html);
 		chrome.tts.speak(
 			toSay,
 			{
-				rate: 0.1,
-				// requiredEventTypes: ["word"],
+				rate: rateV,
+				voiceName: voiceN,
+				// gender: "female",
+				requiredEventTypes: ["word"],
 				onEvent: function(event) {
-					console.log('Event ' + event.type + ' at position ' + event.charIndex);
-					// if (event.type == "word") {
-					// 	var start = event.charIndex;
-					// 	console.log(start);
-
-					// } else if (event.type == "end") {
-					// 	wordList.find("span").removeClass("text-danger");
-					// }
+					if (event.type == "word") {
+						var start = event.charIndex;
+						wordList.find("span").removeClass("text-danger");
+						var inWord = true;
+						while (inWord) {
+							$($("span")[start++]).addClass("text-danger");
+							if (($("span")[start] === undefined) || ($($("span")[start]).text() == " ")) {
+								inWord = false;
+							}
+						}
+					} else if (event.type == "end") {
+						wordList.find("span").removeClass("text-danger");
+					}
 				}
 			},function(){
-				console.log("ss");
 			});
 	})
 });

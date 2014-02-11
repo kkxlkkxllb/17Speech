@@ -6,10 +6,21 @@ html(lang="en")
 		article
 			.container
 				.page-header
-					h1 speech
+					h3 17speech
 				form(role="form")
 					.form-group
-						input#inpSpeakMe.form-control(x-webkit-speech required="requried" type="text" placeholder="Say something..." value="The rain in Spain, stays mainly in the plain.")
+						label VoiceName
+						select#voiceSel.form-control(name="voice")
+					.form-group
+						label rate
+						input#rate.form-control(type="range" min="0.5" max="4.0" value="0.7" step="0.1")
+					.form-group
+						label Speech Text
+						textarea#inpSpeakMe.form-control
+							| My top priority is for people to understand that they have the power to change things themselves.
+					.form-group
+						label Voice Input
+						input.form-control(x-webkit-speech type="text")
 					.form-group
 						button#btnSpeak.btn.btn-primary(type="button") Speak
 				.panel.panel-default
