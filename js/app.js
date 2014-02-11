@@ -1,43 +1,33 @@
 var speakInput;
-var btnSpeak;
 var wordList;
 
 $(document).ready(function(){
-  speakInput = $("#inpSpeakMe");
-  btnSpeak = $("#btnSpeak");
-  wordList = $("#wordList");
-  btnSpeak.bind("click", saySomething)
-    .removeAttr("disabled");
+	speakInput = $("#inpSpeakMe");
+	wordList = $("#wordList");
+	$("#btnSpeak").click(function(){
+		var toSay = speakInput.val();
+		var words = toSay.split(" ");
+		var html = $.map(words,function(w){
+			return("<span>" + w + "</span>");
+		}).join(" ");
+		wordList.html(html);
+		chrome.tts.speak(
+			toSay,
+			{
+				// rate: 0.8,
+				// requiredEventTypes: ["word"],
+				onEvent: function(event) {
+					console.log('Event ' + event.type + ' at position ' + event.charIndex);
+					// if (event.type == "word") {
+					// 	var start = event.charIndex;
+					// 	console.log(start);
+
+					// } else if (event.type == "end") {
+					// 	wordList.find("span").removeClass("text-danger");
+					// }
+				}
+			},function(){
+				console.log("ss");
+			});
+	})
 });
-
-
-function saySomething(evt) {
-  var toSay = speakInput.val();
-
-  var words = toSay.split("");
-  wordList.html("");
-  for (var i = 0; i < words.length; i++) {
-    words[i] = $("<span>").text(words[i]);
-    wordList.append(words[i]);
-    wordList.append("");
-  }
-  chrome.tts.speak(toSay, {
-      rate: 0.8,
-      onEvent: function(event) {
-        if (event.type == "word") {
-          var start = event.charIndex;
-          wordList.find("span").removeClass("highlight");
-          var inWord = true;
-          while (inWord) {
-            words[start++].addClass("highlight");
-            if ((words[start] === undefined) || (words[start].text() == " ")) {
-              inWord = false;
-            }
-          }
-        } else if (event.type == "end") {
-          wordList.find("span").removeClass("highlight");
-        }
-      }
-    }, function(evt) {
-    });
-}

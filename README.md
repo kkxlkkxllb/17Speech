@@ -1,8 +1,6 @@
 # Text To Speech
 
-This is a sample Chrome Packaged Application. It contains a basic manifest file 
-with the TTS permission.  When the user clicks the "Speak" button, the app will
-use Chrome's TTS engine and speak what the user has typed.
+`jade -P index.jade`
 
 ## Resources
 
