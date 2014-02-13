@@ -3,17 +3,21 @@ html(lang="en")
 	head
 		include includes/header
 	body
+		header.navbar.navbar-static-top.navbar-default(role="banner")
+			.container
+				.navbar-header
+					.navbar-brand.franklin 17Speech
+
 		article
 			.container
-				.page-header
-					h3 17speech
 				form(role="form")
-					.form-group
-						label VoiceName
-						select#voiceSel.form-control(name="voice")
-					.form-group
-						label rate
-						input#rate.form-control(type="range" min="0.5" max="4.0" value="0.7" step="0.1")
+					.row
+						.form-group.col-xs-6
+							label Voice Name
+							select#voiceSel.form-control(name="voice")
+						.form-group.col-xs-6
+							label Voice Rate
+							input#rate.form-control(type="range" min="0.5" max="4.0" value="0.7" step="0.1")
 					.form-group
 						label Speech Text
 						textarea#inpSpeakMe.form-control
@@ -22,6 +26,7 @@ html(lang="en")
 						label Voice Input
 						input.form-control(x-webkit-speech type="text")
 					.form-group
-						button#btnSpeak.btn.btn-primary(type="button") Speak
+						button#btnSpeak.btn.btn-primary(type="button")
+							i.fa.fa-volume-up
 				.panel.panel-default
 					#wordList.panel-body

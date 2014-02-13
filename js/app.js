@@ -17,17 +17,20 @@ $(document).ready(function(){
 		});
 	$("#rate").change(function(){
 		var rate = $(this).val();
-		$(this).prev().text("rate: " + rate);
+		$(this).prev().text("Voice Rate: " + rate);
+	}).trigger("change");
+	speakInput.change(function(){
+		var words = $(this).val().split("");
+		var html = $.map(words,function(w){
+			return("<span>" + w + "</span>");
+		}).join("");
+		wordList.html(html);
 	}).trigger("change");
 	$("#btnSpeak").click(function(){
 		var toSay = speakInput.val();
 		var voiceN = voiceSel.val();
 		var rateV = parseFloat(rateInput.val());
-		var words = toSay.split("");
-		var html = $.map(words,function(w){
-			return("<span>" + w + "</span>");
-		}).join("");
-		wordList.html(html);
+
 		chrome.tts.speak(
 			toSay,
 			{

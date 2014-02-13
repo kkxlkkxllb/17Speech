@@ -1,3 +1,9 @@
+@font-face{font-family:DancingScript;font-style:normal;src:url("./fonts/DancingScript.woff")}
+@font-face{font-family:Pacifico;font-style:normal;src:url("./fonts/Pacifico.woff")}
+@font-face{font-family:Franklin;font-style:normal;src:url("./fonts/franklin.woff") format('woff')}
+.dancer{font-family:DancingScript}
+.pacifico{font-family:Pacifico}
+.franklin{font-family: Franklin}
 #rate{
 	-webkit-box-shadow: none;
 }
