@@ -1,4 +1,7 @@
-# Text To Speech
+# 17Speech
+--------------
+
+> thanks petele/ChromeTTS
 
 `jade -P index.jade`
 
