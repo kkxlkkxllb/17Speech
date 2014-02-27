@@ -1,36 +1,39 @@
-var speakInput;
-var wordList;
-var voiceSel;
+var $speakInput;
+var $wordList;
+var $voiceSel;
+var $rateInput;
 
 $(document).ready(function(){
-	speakInput = $("#inpSpeakMe");
-	wordList = $("#wordList");
-	voiceSel = $("#voiceSel");
-	rateInput = $("#rate");
-	chrome.tts.getVoices(
-		function(voices) {
-			var voiceHtml = "";
-			for (var i = 0; i < voices.length; i++) {
-				voiceHtml += "<option value='" + voices[i].voiceName + "'>" + voices[i].voiceName + "</option>";
-			}
-			$("#voiceSel").html(voiceHtml);
-		});
-	$("#rate").change(function(){
+	$speakInput = $("#inpSpeakMe");
+	$wordList = $("#wordList");
+	$voiceSel = $("#voiceSel");
+	$rateInput = $("#rate");
+
+	chrome.tts.getVoices(function(voices) {
+		var voiceHtml = "";
+		for (var i = 0; i < voices.length; i++) {
+			voiceHtml += "<option value='" + voices[i].voiceName + "'>" + voices[i].voiceName + "</option>";
+		}
+		$voiceSel.html(voiceHtml);
+	});
+
+	$rateInput.change(function(){
 		var rate = $(this).val();
 		$(this).prev().text("Voice Rate: " + rate);
 	}).trigger("change");
-	speakInput.change(function(){
-		var words = $(this).val().split("");
-		var html = $.map(words,function(w){
-			return("<span>" + w + "</span>");
-		}).join("");
-		wordList.html(html);
-	}).trigger("change");
-	$("#btnSpeak").click(function(){
-		var toSay = speakInput.val();
-		var voiceN = voiceSel.val();
-		var rateV = parseFloat(rateInput.val());
 
+	$("#btnSpeak").click(function(){
+		var toSay = $speakInput.val();
+		var voiceN = $voiceSel.val();
+		var rateV = parseFloat($rateInput.val());
+
+		var words = toSay.split("");
+		$wordList.html("");
+		for (var i = 0; i < words.length; i++) {
+			words[i] = $("<span>").text(words[i]);
+			$wordList.append(words[i]);
+			$wordList.append("");
+		}
 		chrome.tts.speak(
 			toSay,
 			{
@@ -41,19 +44,19 @@ $(document).ready(function(){
 				onEvent: function(event) {
 					if (event.type == "word") {
 						var start = event.charIndex;
-						wordList.find("span").removeClass("text-danger");
+						$wordList.find("span").removeClass("text-danger");
 						var inWord = true;
 						while (inWord) {
-							$($("span")[start++]).addClass("text-danger");
-							if (($("span")[start] === undefined) || ($($("span")[start]).text() == " ")) {
+							words[start++].addClass("text-danger");
+							if ((words[start] === undefined) || (words[start].text() == " ")) {
 								inWord = false;
 							}
 						}
 					} else if (event.type == "end") {
-						wordList.find("span").removeClass("text-danger");
+						$wordList.find("span").removeClass("text-danger");
 					}
 				}
 			},function(){
 			});
-	})
+	});
 });
